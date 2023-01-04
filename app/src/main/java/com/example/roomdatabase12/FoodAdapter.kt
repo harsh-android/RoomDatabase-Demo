@@ -40,7 +40,7 @@ class FoodAdapter(list: List<FoodData>) :
         holder.foodPrice.text = modellist.get(position).price.toString()
         database = RoomDB.getInstance(context).getFoodDao()
         if (modellist.get(position).veg) {
-            holder.foodName.setTextColor(Color.GREEN)
+            holder.foodName.setTextColor(context.resources.getColor(android.R.color.holo_green_dark))
         } else {
             holder.foodName.setTextColor(Color.RED)
         }
@@ -79,10 +79,10 @@ class FoodAdapter(list: List<FoodData>) :
                 }
             })
             btnUpdates.setOnClickListener {
-                var data = FoodData(edtName.text.toString(),edtPrice.text.toString().toInt(), veg)
-                database.addFood(data)
 
-//                MainActivity.Updated()
+                database.updateFood(edtName.text.toString(),edtPrice.text.toString().toInt(), veg,modellist.get(position).id)
+
+                MainActivity.Updated()
                 dialog.dismiss()
 
             }
@@ -91,10 +91,10 @@ class FoodAdapter(list: List<FoodData>) :
 
         }
 
-//        holder.btnDelete.setOnClickListener {
-//            database.deleteData(modellist.get(position).id)
-//            MainActivity.Updated()
-//        }
+        holder.btnDelete.setOnClickListener {
+            database.deleteFood(modellist.get(position))
+            MainActivity.Updated()
+        }
 
     }
 
@@ -102,7 +102,7 @@ class FoodAdapter(list: List<FoodData>) :
         return modellist.size
     }
 
-    fun update(list: java.util.ArrayList<FoodData>) {
+    fun update(list: List<FoodData>) {
         modellist = list
         notifyDataSetChanged()
     }

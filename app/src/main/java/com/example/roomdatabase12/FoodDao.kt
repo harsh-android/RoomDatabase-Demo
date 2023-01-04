@@ -15,8 +15,8 @@ interface FoodDao {
     @Query("SELECT * FROM food")
     fun getFood() : List<FoodData>
 
-    @Update
-    fun updateFood(data: FoodData)
+    @Query("UPDATE food SET name=:name, price=:price, veg= :veg WHERE id=:id")
+    fun updateFood(name: String, price: Int, veg:Boolean, id:Int)
 
     @Delete
     fun deleteFood(data: FoodData)
